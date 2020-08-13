@@ -22,7 +22,7 @@ const Users = () =>{
         <div key={user.id}>
           <br />
         <h1>{user.name}</h1>
-        <Dropzone />
+        <Dropzone userId = {user.id}/>
         <br />
         </div>
       ))}
@@ -31,9 +31,24 @@ const Users = () =>{
 
 };
 
-function Dropzone() {
+function Dropzone( userId ) {
   const onDrop = useCallback(acceptedFiles => {
     const file = acceptedFiles[0];
+    const form = new FormData();
+    form.append("file", file);
+    
+    api.post(`/api/v1/user/${userId}/image/upload`, form,
+    {
+      headers:{
+        "Content-Type": "multipart/form-data"
+      }
+    }
+    ).then(()=>{
+      console.log("file uploaded with success")
+    }).catch(error =>{
+      console.log(error)
+    });
+
   }, [])
   const {getRootProps, getInputProps, isDragActive} = useDropzone({onDrop})
 
