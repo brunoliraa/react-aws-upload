@@ -20,6 +20,9 @@ const Users = () =>{
     <div>
       {user.map(user =>(
         <div key={user.id}>
+          {user.id ? (
+           <img src={`http://localhost:8080/api/v1/user/${user.id}/image/download`}></img> 
+           ) : null}
           <br />
         <h1>{user.name}</h1>
         <Dropzone userId = {user.id}/>
